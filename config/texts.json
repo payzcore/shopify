@@ -1,0 +1,41 @@
+{
+  "payment": {
+    "sendExactly": "Send exactly",
+    "viaNetwork": "via {network}",
+    "scanQr": "Scan with your wallet app",
+    "sendToAddress": "Send to this address",
+    "timeRemaining": "Time remaining",
+    "warningLine1": "Send only {token} on the {network} network",
+    "warningLine2": "Send the exact amount shown above",
+    "warningLine3": "Sending wrong token or network may result in permanent loss",
+    "paymentReceived": "Payment Received",
+    "paymentReceivedDetail": "Your payment of {amount} {token} has been detected.",
+    "redirecting": "Redirecting you back to the store...",
+    "returnToStore": "Return to Store",
+    "paymentExpired": "Payment Expired",
+    "paymentExpiredDetail": "The payment window has closed. Please create a new order to try again.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "txidLabel": "After sending, paste your transaction hash below",
+    "txidPlaceholder": "Transaction hash (e.g. 0xabc...)",
+    "txidSubmit": "Submit"
+  },
+  "status": {
+    "pending": "Waiting for payment...",
+    "confirming": "Transaction detected, confirming...",
+    "partial": "Partial payment received",
+    "paid": "Payment confirmed",
+    "overpaid": "Payment confirmed (overpaid)",
+    "expired": "Payment expired",
+    "cancelled": "Payment cancelled"
+  },
+  "complete": {
+    "title": "Payment Successful",
+    "detail": "{amount} {token} received on {network} for order {order}.",
+    "processing": "Your order is now being processed.",
+    "returnToStore": "Return to Store"
+  },
+  "error": {
+    "goBack": "Go Back"
+  }
+}

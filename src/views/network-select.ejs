@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= texts.networkSelector.title %> - <%= orderName %></title>
+  <link rel="stylesheet" href="/css/payment.css">
+  <style>
+    /* ── Network Selector Styles ── */
+
+    .selector-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .selector-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fafafa;
+      margin-bottom: 6px;
+    }
+
+    .selector-description {
+      font-size: 14px;
+      color: #71717a;
+    }
+
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #18181b;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .order-summary-label {
+      color: #71717a;
+    }
+
+    .order-summary-value {
+      color: #fafafa;
+      font-weight: 600;
+    }
+
+    .order-summary-amount {
+      color: #06b6d4;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* Network Options */
+
+    .network-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .network-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: #18181b;
+      border: 2px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .network-option:hover {
+      border-color: rgba(6, 182, 212, 0.3);
+      background: rgba(6, 182, 212, 0.03);
+    }
+
+    .network-option.selected {
+      border-color: #06b6d4;
+      background: rgba(6, 182, 212, 0.06);
+    }
+
+    .network-option input[type="radio"] {
+      display: none;
+    }
+
+    .network-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .network-option.selected .network-radio {
+      border-color: #06b6d4;
+    }
+
+    .network-radio-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #06b6d4;
+      transform: scale(0);
+      transition: transform 0.15s ease;
+    }
+
+    .network-option.selected .network-radio-dot {
+      transform: scale(1);
+    }
+
+    .network-info {
+      flex: 1;
+    }
+
+    .network-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fafafa;
+    }
+
+    .network-tokens {
+      font-size: 12px;
+      color: #71717a;
+      margin-top: 2px;
+    }
+
+    /* Token Selector */
+
+    .token-section {
+      margin-bottom: 24px;
+    }
+
+    .token-label {
+      font-size: 13px;
+      color: #71717a;
+      margin-bottom: 8px;
+    }
+
+    .token-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .token-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #18181b;
+      border: 2px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 15px;
+      font-weight: 600;
+      color: #a1a1aa;
+    }
+
+    .token-option:hover:not(.disabled) {
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #fafafa;
+    }
+
+    .token-option.selected {
+      border-color: #06b6d4;
+      background: rgba(6, 182, 212, 0.06);
+      color: #fafafa;
+    }
+
+    .token-option.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .token-option input[type="radio"] {
+      display: none;
+    }
+
+    /* Validation message */
+
+    .validation-msg {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 8px;
+      min-height: 18px;
+      display: none;
+    }
+
+    .validation-msg.visible {
+      display: block;
+    }
+
+    /* Continue Button */
+
+    .continue-section {
+      padding-top: 4px;
+    }
+
+    .continue-btn {
+      width: 100%;
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 12px;
+      margin-top: 0;
+    }
+
+    .continue-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .back-to-store {
+      font-size: 13px;
+      color: #71717a;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .back-to-store:hover {
+      color: #a1a1aa;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="order-info">Order <%= orderName %></div>
+    </div>
+
+    <!-- Payment Card -->
+    <div class="payment-card">
+      <!-- Selector Header -->
+      <div class="selector-header">
+        <div class="selector-title"><%= texts.networkSelector.title %></div>
+        <div class="selector-description"><%= texts.networkSelector.description %></div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <span class="order-summary-label"><%= texts.networkSelector.amountLabel %></span>
+        <span class="order-summary-amount"><%= amount %> <%= currency %></span>
+      </div>
+
+      <!-- Network Options -->
+      <div class="network-options" id="network-options">
+        <% enabledNetworks.forEach(function(network, idx) { %>
+          <label class="network-option<%= idx === 0 ? ' selected' : '' %>" data-network="<%= network.code %>" data-tokens="<%= JSON.stringify(network.tokens) %>">
+            <input type="radio" name="network" value="<%= network.code %>" <%= idx === 0 ? 'checked' : '' %>>
+            <div class="network-radio">
+              <div class="network-radio-dot"></div>
+            </div>
+            <div class="network-info">
+              <div class="network-name"><%= network.label %></div>
+              <div class="network-tokens"><%= network.tokens.join(' / ') %></div>
+            </div>
+          </label>
+        <% }); %>
+      </div>
+
+      <!-- Token Selector -->
+      <div class="token-section" id="token-section">
+        <div class="token-label"><%= texts.networkSelector.tokenLabel %></div>
+        <div class="token-options" id="token-options">
+          <label class="token-option<%= defaultToken === 'USDT' ? ' selected' : '' %>" data-token="USDT" id="token-usdt">
+            <input type="radio" name="token" value="USDT" <%= defaultToken === 'USDT' ? 'checked' : '' %>>
+            USDT
+          </label>
+          <label class="token-option<%= defaultToken === 'USDC' ? ' selected' : '' %>" data-token="USDC" id="token-usdc">
+            <input type="radio" name="token" value="USDC" <%= defaultToken === 'USDC' ? 'checked' : '' %>>
+            USDC
+          </label>
+        </div>
+        <div class="validation-msg" id="validation-msg"><%= texts.networkSelector.usdcNotOnTrc20 %></div>
+      </div>
+
+      <!-- Continue Button -->
+      <div class="continue-section">
+        <button class="btn btn-primary continue-btn" id="continue-btn" onclick="continueToPayment()">
+          <%= texts.networkSelector.continueButton %>
+        </button>
+        <div class="back-link">
+          <a href="<%= forwardParams.return_url || ('https://' + forwardParams.shop) %>" class="back-to-store">Back to store</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      var forwardParams = <%- JSON.stringify(forwardParams).replace(/</g, '\\u003c') %>;
+      var selectedNetwork = document.querySelector('input[name="network"]:checked').value;
+      var selectedToken = document.querySelector('input[name="token"]:checked').value;
+
+      // ── Network Selection ──
+
+      var networkOptions = document.querySelectorAll('.network-option');
+      networkOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+          // Update visual state
+          networkOptions.forEach(function(o) { o.classList.remove('selected'); });
+          option.classList.add('selected');
+          option.querySelector('input').checked = true;
+          selectedNetwork = option.querySelector('input').value;
+
+          // Update token availability based on selected network
+          updateTokenAvailability();
+        });
+      });
+
+      // ── Token Selection ──
+
+      var tokenOptions = document.querySelectorAll('.token-option');
+      tokenOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+          if (option.classList.contains('disabled')) return;
+          tokenOptions.forEach(function(o) { o.classList.remove('selected'); });
+          option.classList.add('selected');
+          option.querySelector('input').checked = true;
+          selectedToken = option.querySelector('input').value;
+          hideValidation();
+        });
+      });
+
+      function updateTokenAvailability() {
+        var active = document.querySelector('.network-option.selected');
+        if (!active) return;
+
+        var tokens;
+        try {
+          tokens = JSON.parse(active.getAttribute('data-tokens'));
+        } catch(e) {
+          tokens = ['USDT', 'USDC'];
+        }
+
+        var usdtEl = document.getElementById('token-usdt');
+        var usdcEl = document.getElementById('token-usdc');
+        var validationMsg = document.getElementById('validation-msg');
+
+        // Reset disabled state
+        usdtEl.classList.remove('disabled');
+        usdcEl.classList.remove('disabled');
+
+        // Disable USDC if not supported on this network
+        if (tokens.indexOf('USDC') === -1) {
+          usdcEl.classList.add('disabled');
+
+          // If USDC was selected, switch to USDT
+          if (selectedToken === 'USDC') {
+            usdcEl.classList.remove('selected');
+            usdtEl.classList.add('selected');
+            usdtEl.querySelector('input').checked = true;
+            selectedToken = 'USDT';
+            showValidation();
+          }
+        } else {
+          hideValidation();
+        }
+
+        // Disable USDT if not supported (edge case)
+        if (tokens.indexOf('USDT') === -1) {
+          usdtEl.classList.add('disabled');
+          if (selectedToken === 'USDT') {
+            usdtEl.classList.remove('selected');
+            usdcEl.classList.add('selected');
+            usdcEl.querySelector('input').checked = true;
+            selectedToken = 'USDC';
+          }
+        }
+      }
+
+      function showValidation() {
+        var el = document.getElementById('validation-msg');
+        if (el) el.classList.add('visible');
+      }
+
+      function hideValidation() {
+        var el = document.getElementById('validation-msg');
+        if (el) el.classList.remove('visible');
+      }
+
+      // Run initial availability check
+      updateTokenAvailability();
+
+      // ── Continue to Payment ──
+
+      window.continueToPayment = function() {
+        var btn = document.getElementById('continue-btn');
+        btn.disabled = true;
+        btn.textContent = 'Loading...';
+
+        // Build URL with all forward params + selected network/token
+        var params = new URLSearchParams(forwardParams);
+        params.set('network', selectedNetwork);
+        params.set('token', selectedToken);
+
+        window.location.href = '/payment/create?' + params.toString();
+      };
+    })();
+  </script>
+</body>
+</html>

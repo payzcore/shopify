@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay with <%= token %> - <%= orderName %></title>
+  <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="order-info">Order <%= orderName %></div>
+    </div>
+
+    <!-- Status Banner -->
+    <div id="status-banner" class="status-banner status-<%= status %>">
+      <div class="status-dot"></div>
+      <span id="status-text"><%= status === 'pending' ? texts.status.pending : status %></span>
+    </div>
+
+    <!-- Payment Card -->
+    <div class="payment-card" id="payment-card">
+      <!-- Amount -->
+      <div class="amount-section">
+        <div class="amount-label"><%= texts.payment.sendExactly %></div>
+        <div class="amount-value">
+          <span id="payment-amount"><%= amount %></span>
+          <span class="amount-token"><%= token %></span>
+          <button class="copy-amount-btn" id="copy-amount-btn" onclick="copyAmount()" title="<%= texts.payment.copy %>">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copy-amount-text"><%= texts.payment.copy %></span>
+          </button>
+        </div>
+        <div class="amount-network">
+          <%= texts.payment.viaNetwork.replace('{network}', networkLabel) %>
+        </div>
+        <% if (notice) { %>
+        <div class="notice-banner"><%= notice %></div>
+        <% } %>
+      </div>
+
+      <!-- QR Code -->
+      <% if (qrCode) { %>
+      <div class="qr-section">
+        <img src="<%= qrCode %>" alt="Payment QR Code" class="qr-code" id="qr-code">
+        <div class="qr-hint"><%= texts.payment.scanQr %></div>
+      </div>
+      <% } %>
+
+      <!-- Address -->
+      <div class="address-section">
+        <div class="address-label"><%= texts.payment.sendToAddress %></div>
+        <div class="address-box">
+          <code class="address-text" id="address-text"><%= address %></code>
+          <button class="copy-btn" id="copy-btn" onclick="copyAddress()" title="<%= texts.payment.copy %>">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copy-text"><%= texts.payment.copy %></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Countdown Timer -->
+      <div class="timer-section">
+        <div class="timer-label"><%= texts.payment.timeRemaining %></div>
+        <div class="timer-value" id="countdown">--:--</div>
+        <div class="timer-bar">
+          <div class="timer-bar-fill" id="timer-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Warnings -->
+      <div class="warnings">
+        <div class="warning-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span><%= texts.payment.warningLine1.replace('{token}', token).replace('{network}', network) %></span>
+        </div>
+        <div class="warning-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span><%= texts.payment.warningLine2 %></span>
+        </div>
+        <div class="warning-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span><%= texts.payment.warningLine3 %></span>
+        </div>
+      </div>
+
+      <% if (requiresTxid) { %>
+      <!-- Transaction Hash Submission (static wallet mode) -->
+      <div class="txid-section">
+        <div class="txid-label"><%= texts.payment.txidLabel || 'After sending, paste your transaction hash below' %></div>
+        <div class="txid-form">
+          <input type="text" id="txid-input" class="txid-input" placeholder="<%= texts.payment.txidPlaceholder || 'Transaction hash (e.g. 0xabc...)' %>" />
+          <button class="btn btn-primary txid-btn" id="txid-btn" onclick="submitTxHash()">
+            <%= texts.payment.txidSubmit || 'Submit' %>
+          </button>
+        </div>
+        <div class="txid-status" id="txid-status"></div>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Success Overlay (hidden by default) -->
+    <div class="success-overlay" id="success-overlay" style="display: none;">
+      <div class="success-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2><%= texts.payment.paymentReceived %></h2>
+      <p><%= texts.payment.paymentReceivedDetail.replace('{amount}', '<strong id="success-amount"></strong>').replace('{token}', token) %></p>
+      <p class="success-note"><%= texts.payment.redirecting %></p>
+      <a href="<%= returnUrl %>" class="btn btn-primary" id="return-btn"><%= texts.payment.returnToStore %></a>
+    </div>
+
+    <!-- Expired Overlay (hidden by default) -->
+    <div class="expired-overlay" id="expired-overlay" style="display: none;">
+      <div class="expired-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </div>
+      <h2><%= texts.payment.paymentExpired %></h2>
+      <p><%= texts.payment.paymentExpiredDetail %></p>
+      <a href="https://<%= shopDomain %>" class="btn btn-secondary"><%= texts.payment.returnToStore %></a>
+    </div>
+
+  </div>
+
+  <!-- Pass data to JS -->
+  <script>
+    window.__PAYMENT__ = <%- JSON.stringify({
+      id: paymentId,
+      expiresAt: expiresAt,
+      returnUrl: returnUrl,
+      status: status,
+      requiresTxid: !!requiresTxid,
+      network: network,
+    }).replace(/</g, '\\u003c') %>;
+    window.statusTexts = <%- JSON.stringify(texts.status).replace(/</g, '\\u003c') %>;
+    window.copyTexts = <%- JSON.stringify({ copy: texts.payment.copy, copied: texts.payment.copied }).replace(/</g, '\\u003c') %>;
+    window.partialGuidance = 'Send the remaining amount to the same address';
+  </script>
+  <script src="/js/payment.js"></script>
+</body>
+</html>

@@ -1,0 +1,665 @@
+/**
+ * PayzCore Shopify Payment Page Styles
+ *
+ * Dark theme matching PayzCore brand:
+ * - Background: #000000 (black)
+ * - Accent: #06b6d4 (cyan-500)
+ * - Cards: #09090b (zinc-950)
+ * - Borders: rgba(255, 255, 255, 0.07)
+ */
+
+/* ── Reset & Base ── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #000000;
+  color: #fafafa;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Layout ── */
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06b6d4;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.logo svg {
+  color: #06b6d4;
+}
+
+.order-info {
+  font-size: 14px;
+  color: #a1a1aa;
+}
+
+/* ── Status Banner ── */
+
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-banner.status-pending {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.status-banner.status-confirming {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.status-banner.status-partial {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.status-banner.status-paid,
+.status-banner.status-overpaid {
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  color: #06b6d4;
+}
+
+.status-banner.status-expired,
+.status-banner.status-cancelled {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Payment Card ── */
+
+.payment-card {
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 28px 24px;
+  flex: 1;
+}
+
+/* Amount */
+
+.amount-section {
+  text-align: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 24px;
+}
+
+.amount-label {
+  font-size: 13px;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.amount-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fafafa;
+  font-variant-numeric: tabular-nums;
+}
+
+.amount-token {
+  font-size: 20px;
+  color: #06b6d4;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.copy-amount-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: #a1a1aa;
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.copy-amount-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fafafa;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-amount-btn.copied {
+  color: #06b6d4;
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.amount-network {
+  font-size: 13px;
+  color: #71717a;
+  margin-top: 4px;
+}
+
+.amount-network strong {
+  color: #a1a1aa;
+}
+
+/* QR Code */
+
+.qr-section {
+  text-align: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 24px;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  background: #18181b;
+  padding: 12px;
+}
+
+.qr-hint {
+  font-size: 12px;
+  color: #52525b;
+  margin-top: 8px;
+}
+
+/* Address */
+
+.address-section {
+  margin-bottom: 24px;
+}
+
+.address-label {
+  font-size: 13px;
+  color: #71717a;
+  margin-bottom: 8px;
+}
+
+.address-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.address-text {
+  flex: 1;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+  font-size: 12px;
+  color: #e4e4e7;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #a1a1aa;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fafafa;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-btn.copied {
+  color: #06b6d4;
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+/* Timer */
+
+.timer-section {
+  text-align: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 24px;
+}
+
+.timer-label {
+  font-size: 13px;
+  color: #71717a;
+  margin-bottom: 8px;
+}
+
+.timer-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fafafa;
+  font-variant-numeric: tabular-nums;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.timer-value.timer-warning {
+  color: #f59e0b;
+}
+
+.timer-value.timer-critical {
+  color: #ef4444;
+}
+
+.timer-bar {
+  height: 3px;
+  background: #27272a;
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.timer-bar-fill {
+  height: 100%;
+  background: #06b6d4;
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+.timer-bar-fill.bar-warning {
+  background: #f59e0b;
+}
+
+.timer-bar-fill.bar-critical {
+  background: #ef4444;
+}
+
+/* Warnings */
+
+.warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.warning-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: #71717a;
+  line-height: 1.5;
+}
+
+.warning-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #52525b;
+}
+
+.warning-item strong {
+  color: #a1a1aa;
+}
+
+/* Notice Banner (static wallet mode) */
+
+.notice-banner {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #f59e0b;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Poll Warning (connection issue) */
+
+.poll-warning {
+  padding: 10px 14px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #f59e0b;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Partial Payment Guidance */
+
+.partial-guidance {
+  padding: 10px 14px;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #06b6d4;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Transaction Hash Submission (static wallet mode) */
+
+.txid-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.txid-label {
+  font-size: 13px;
+  color: #71717a;
+  margin-bottom: 10px;
+}
+
+.txid-form {
+  display: flex;
+  gap: 8px;
+}
+
+.txid-input {
+  flex: 1;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #e4e4e7;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.txid-input:focus {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.txid-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.txid-input::placeholder {
+  color: #52525b;
+}
+
+.txid-btn {
+  padding: 10px 18px;
+  font-size: 13px;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.txid-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.txid-status {
+  font-size: 12px;
+  margin-top: 8px;
+  min-height: 18px;
+}
+
+.txid-status.txid-success {
+  color: #06b6d4;
+}
+
+.txid-status.txid-error {
+  color: #ef4444;
+}
+
+/* ── Overlays ── */
+
+.success-overlay,
+.expired-overlay {
+  text-align: center;
+  padding: 48px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-icon,
+.expired-icon,
+.error-icon {
+  margin-bottom: 24px;
+}
+
+.success-overlay h2,
+.expired-overlay h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.success-overlay p,
+.expired-overlay p {
+  font-size: 15px;
+  color: #a1a1aa;
+  margin-bottom: 8px;
+}
+
+.success-note {
+  font-size: 13px !important;
+  color: #52525b !important;
+}
+
+/* ── Buttons ── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background: #06b6d4;
+  color: #000000;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #22d3ee;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fafafa;
+}
+
+/* ── Footer ── */
+
+.footer {
+  text-align: center;
+  padding-top: 20px;
+  margin-top: auto;
+  font-size: 12px;
+  color: #52525b;
+}
+
+.footer a {
+  color: #06b6d4;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* ── Error & Success Pages ── */
+
+.error-page,
+.success-page {
+  text-align: center;
+  padding: 48px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-page h1,
+.success-page h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.error-page p,
+.success-page p {
+  font-size: 15px;
+  color: #a1a1aa;
+  margin-bottom: 8px;
+  max-width: 360px;
+}
+
+.success-details {
+  color: #d4d4d8 !important;
+}
+
+.explorer-link {
+  margin-bottom: 4px;
+}
+
+.explorer-link a {
+  color: #06b6d4;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.explorer-link a:hover {
+  color: #22d3ee;
+  text-decoration: underline;
+}
+
+/* ── Animations ── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-overlay,
+.expired-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 12px;
+  }
+
+  .payment-card {
+    padding: 20px 16px;
+  }
+
+  .amount-value {
+    font-size: 28px;
+  }
+
+  .qr-code {
+    width: 160px;
+    height: 160px;
+  }
+
+  .address-text {
+    font-size: 11px;
+  }
+
+  .timer-value {
+    font-size: 24px;
+  }
+}
