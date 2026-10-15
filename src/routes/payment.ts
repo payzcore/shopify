@@ -50,7 +50,7 @@ export function createPaymentRouter(config: AppConfig): Router {
    * GET /payment/create
    *
    * Initiates a crypto payment for a Shopify order.
-   * If multiple chains are enabled and the customer hasn't chosen one yet,
+   * If multiple networks are enabled and the customer hasn't chosen one yet,
    * shows a network selection page first.
    *
    * Query params:
